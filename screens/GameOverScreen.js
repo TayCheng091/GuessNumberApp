@@ -1,13 +1,34 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import Title from "../components/Title";
 import Colors from "../constants/Color";
 import PrimaryButton from "../components/PrimaryButton";
 
 const GameOverScreen = ({ userNum, restartHandler, guessRounds }) => {
+  const { width, height } = useWindowDimensions();
+  let imgMaxWidth = width >= 360 ? 140 : 300;
+  let imgMaxHeight = width >= 360 ? 140 : 300;
+
   return (
     <View style={styles.rootContainer}>
       <Title color={Colors.blue600}>GameOverScreen</Title>
-      <View style={styles.imgContainer}>
+      <View
+        style={[
+          styles.imgContainer,
+          {
+            width: width * 0.55,
+            height: width * 0.55,
+            borderRadius: 1000,
+            maxWidth: imgMaxWidth,
+            maxHeight: imgMaxHeight,
+          },
+        ]}
+      >
         <Image
           style={styles.img}
           source={require("../assets/Images/gameover.webp")}
@@ -29,6 +50,8 @@ const GameOverScreen = ({ userNum, restartHandler, guessRounds }) => {
 
 export default GameOverScreen;
 
+// const windowWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -37,11 +60,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imgContainer: {
-    width: 250,
-    height: 250,
+    //   width: windowWidth * 0.55,
+    //   height: windowWidth * 0.55,
+    // borderRadius: windowWidth * 0.55,
+    // maxWidth: 100,
+    // maxHeight: 100,
     marginVertical: 30,
-    borderRadius: 125,
-    borderWidth: 5,
+    borderWidth: 3,
     borderColor: Colors.green500,
     overflow: "hidden",
   },

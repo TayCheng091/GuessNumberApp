@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Alert,
+  FlatList,
+  Dimensions,
+  useWindowDimensions,
+} from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 import GuessLogItem from "../components/GuessLogItem";
 import Title from "../components/Title";
@@ -19,7 +27,11 @@ let guessRange = {
   max: 100,
 };
 
+let windowWidth = Dimensions.get("window").width;
+
 const GameScreen = ({ userPickedNum, onGameOver, rounds }) => {
+  let { width } = useWindowDimensions();
+
   let initGuessNum = guessRandomBetween(
     guessRange.min,
     guessRange.max,
@@ -63,7 +75,7 @@ const GameScreen = ({ userPickedNum, onGameOver, rounds }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { marginTop: width <= 360 ? 150 : 30 }]}>
       <Title color={Colors.blue600}>Opponent's guess</Title>
       <View style={styles.mainContainer}>
         <Text style={styles.guessNumBox}>{guessNum}</Text>
@@ -104,7 +116,8 @@ export default GameScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 100,
+    alignItems: "center",
+    // marginTop: windowWidth <= 360 ? 150 : 30,
     paddingHorizontal: 20,
   },
   mainContainer: {
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   guessNumBox: {
-    marginTop: 80,
+    marginTop: windowWidth <= 360 ? 50 : 30,
     padding: 15,
     borderWidth: 5,
     borderColor: Colors.green500,
